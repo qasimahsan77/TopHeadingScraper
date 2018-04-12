@@ -1,0 +1,59 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+
+<h2>
+    {{ title }}
+</h2>
+<div class="container-fluid">
+    <div class="row">
+        <form method="post" enctype="multipart/form-data" name="form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="col-md-6 col-md-offset-4 form-group">
+                <textarea rows="10" cols="50" name="Keyword" placeholder="Enter sites Link!" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <span>Total Keywords:{{Total}}</span>
+            </div>
+            <div class="col-md-7 col-md-offset-4 form-group">
+                <button type="submit" class="btn btn-primary col-md-5">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="row col-md-12">
+        {%if Results|length > 0 %}
+        <table class="table table-bordered table-striped table-hover table-responsive col-md-9">
+            <tr>
+                <th>Heading</th>
+                <th>Link</th>
+                <th>Given Links</th>
+                <th>Keywords</th>
+            </tr>
+            {%for Keyword,URL,Title,Image in Results %}
+            <tr>
+                <td>{{Keyword|safe}}</td>
+                <td>
+                    <a href="{{URL|safe}}" target="_blank">{{URL|safe}}</a>
+                </td>
+                <td>{{Title|safe}}</td>
+                <td>{{Image|safe}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+        <table class="table table-bordered table-striped table-hover table-responsive col-md-3">
+            <tr>
+                <th>Comman Words</th>
+            </tr>
+            <tr>
+                <td>
+                    {%for C in Commanwords %}
+                    {{C|safe}}
+                    {%endfor%}
+                </td>
+            </tr>
+        </table>
+    {%endif%}
+    </div>
+</div>
+{% endblock %}
